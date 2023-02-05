@@ -6,6 +6,10 @@
   "engines": {
     "vscode": "^1.75.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NoteSwiper/mayos-script-syntax-highlight.git"
+  },
   "categories": [
     "Programming Languages"
   ],
@@ -19,12 +23,10 @@
     "grammars": [{
       "language": "aes",
       "scopeName": "source.aes",
-      "path": "./syntaxes/aes.tmLanguage.json"
-    }],
-    "snippets": [{
-      "language": "aes",
-      "scopeName":"source.aes",
-      "path": "./snippet/aes.snippet.json"
+      "path": "./syntaxes/aes.tmLanguage.json",
+      "tokenTypes": {
+        "entity.name.namespace.aes": "other"
+      }
     }]
   }
 }

@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"perl.cacheDir": "${workspaceFolder}/.vscode/perl-lang",
+		"perl.containerCmd": "docker-conpose Perl::LanguageServer ",
+		"perl.perlInc": [
+			"C:\\Strawberry\\perl\\lib"
+		],
+		"pls.inc": [
+			"C:\\Strawberry\\perl\\lib"
+		],
+		"pls.syntax.perl": "C:\\Strawberry\\perl\\bin",
+		"perl.perlCmd": "perl",
+		"docker.dockerPath": "C:\\Program Files\\Docker\\Docker",
+		"docker.composeCommand": "docker compose",
+		"perl.containerName": "easyaes",
+		
+	}
+}

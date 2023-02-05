@@ -1,0 +1,38 @@
+name: Client CI
+
+on:
+  push:
+    tags: '**'
+    paths:
+      - 'client/**'
+      - '.github/workflows/client.yml'
+
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: 'client'
+
+jobs:
+  build_publish:
+    runs-on: ubuntu-latest
+    env:
+      VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: yarn
+          cache-dependency-path: client/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install vsce
+        run: yarn global add vsce
+
+      - name: Publish extension
+        run: vsce publish

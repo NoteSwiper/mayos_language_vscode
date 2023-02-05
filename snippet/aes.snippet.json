@@ -1,7 +1,9 @@
 {
   "import": {
     "prefix": "import",
-    "body":[ "import $1;"],
-    "description": ""
+    "body":[
+      "import $1;"
+    ],
+    "description": "ae"
   }
 }
