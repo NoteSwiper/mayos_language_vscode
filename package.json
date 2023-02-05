@@ -12,7 +12,7 @@
   "contributes": {
     "languages": [{
       "id": "aes",
-      "aliases": ["ae script", "aes"],
+      "aliases": ["aescript", "aes"],
       "extensions": [".aes",".ae",".aesys",".aeconf",".aelang",".aesrg",".aemay",".maycode",".maycd",".aess"],
       "configuration": "./language-configuration.json"
     }],
@@ -20,6 +20,11 @@
       "language": "aes",
       "scopeName": "source.aes",
       "path": "./syntaxes/aes.tmLanguage.json"
+    }],
+    "snippets": [{
+      "language": "aes",
+      "scopeName":"source.aes",
+      "path": "./snippet/aes.snippet.json"
     }]
   }
 }
