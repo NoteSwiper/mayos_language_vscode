@@ -3,6 +3,7 @@
   "displayName": "AES",
   "description": "ae script",
   "version": "0.0.1",
+  "publisher": "NoteSwiper",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -23,10 +24,7 @@
     "grammars": [{
       "language": "aes",
       "scopeName": "source.aes",
-      "path": "./syntaxes/aes.tmLanguage.json",
-      "tokenTypes": {
-        "entity.name.namespace.aes": "other"
-      }
+      "path": "./syntaxes/aes.tmLanguage.json"
     }]
   }
 }
