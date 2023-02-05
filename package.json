@@ -1,0 +1,25 @@
+{
+  "name": "aes-langtest",
+  "displayName": "AES",
+  "description": "ae script",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "aes",
+      "aliases": ["ae script", "aes"],
+      "extensions": [".aes",".ae",".aesys",".aeconf",".aelang",".aesrg",".aemay",".maycode",".maycd",".aess"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "aes",
+      "scopeName": "source.aes",
+      "path": "./syntaxes/aes.tmLanguage.json"
+    }]
+  }
+}

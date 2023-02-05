@@ -1,0 +1,631 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "MayOS AE Script",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#shebang"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#document"
+		}
+	],
+	"repository": {
+"document": {
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#namespace"
+			}]
+		},
+		"namespace": {
+			"begin": "\\b(namespace)(?<=\\b[.[:alnum:]]+|[ \\t]*/[/*])",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.namespace.mayosaes"
+				}
+			},
+			"end": "(?<=})",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"begin": "\\b([.[:alnum:]]+)\\b",
+				"beginCaptures": {
+					"1": {
+						"name": "entity.name.type.namespace.mayosaes",
+						"patterns": [{
+							"include": "#qualified-name"
+						}, {
+							"include": "#invalid-name"
+						}]
+					}
+				},
+				"end": "(?<=})",
+				"patterns": [{
+					"include": "#comment"
+				}, {
+					"include": "#import-clause"
+				}, {
+					"begin": "{",
+					"end": "}",
+					"patterns": [{
+						"include": "#declarations"
+					}]
+				}]
+			}],
+			"name": "meta.namespace.mayosaes"
+		},
+		"import-clause":{
+			"begin": "(\\bimport\\b|[ \\t]*\\+=)",
+			"end": "(?={)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.import.mayosaes"
+				}
+			},
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"begin": "(\\b[.\\*[:alnum:]]+)",
+				"end": "(?={)",
+				"beginCaptures": {
+					"1": {
+						"name": "entity.name.type.import.mayosaes",
+						"patterns": [{
+							"include": "#qualified-name-with-wildcard"
+						}, {
+							"include": "#invalid-name"
+						}]
+					}
+				},
+				"patterns": [{
+					"include": "#comment"
+				}, {
+					"include": "#import-clause"
+				}]
+			}]
+		},
+		"declarations":{
+			"begin": "(?<={)",
+			"end": "(?=})",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#doc-comment"
+			}, {
+				"include": "#abstract-entity"
+			}, {
+				"include": "#entity"
+			}, {
+				"include": "#service"
+			}]
+		},
+		"abstract-entity": {
+			"begin": "\\b(abstract)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.modifier.mayosaes"
+				}
+			},
+			"end": "(?<=})",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#entity"
+			}]
+		},
+		"entity": {
+			"begin": "\\b(entity)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.entity.mayosaes"
+				}
+			},
+			"end": "(?<=})",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"comment": "entityの定義(entity Entity ...)の、「entitiy」を除いた部分",
+				"begin": "\\b([[:alnum:]]+)\\b",
+				"beginCaptures": {
+					"1": {
+						"name": "entity.name.type.namespace.mayosaes",
+						"patterns": [{
+							"include": "#identifier"
+						}, {
+							"include": "#invalid-name"
+						}]
+					}
+				},
+				"end": "(?<=})",
+				"patterns": [{
+					"include": "#comment"
+				}, {
+					"include": "#include-clause"
+				}, {
+					"begin": "{",
+					"end": "}",
+					"patterns": [{
+						"include": "#comment"
+					}, {
+						"include": "#doc-comment"
+					}, {
+						"include": "#field-definition"
+					}],
+					"name": "meta.entity.body.mayosaes"
+				}]
+			}],
+			"name": "meta.entity.mayosaes"
+		},
+		"include-clause": {
+			"begin": "(\\bincludes\\b|[ \\t]*\\+=)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.includes.mayosaes"
+				}
+			},
+			"end": "(?={)",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#entity"
+			}, {
+				"begin": "([[:upper:]][.*[:alnum:]]*)",
+				"end": "(?={)",
+				"beginCaptures": {
+					"1": {
+						"name": "entity.name.type.include.mayosaes",
+						"patterns": [{
+							"include": "#qualified-name"
+						}, {
+							"include": "#invalid-name"
+						}]
+					}
+				},
+				"patterns": [{
+					"include": "#comment"
+				}, {
+					"include": "#include-clause"
+				}]
+			}, {
+				"include": "#doc-comment"
+			}, {
+				"include": "#include-clause"
+			}]
+		},
+		"field-definition": {
+			"begin": "([[:alnum:]]+)\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "support.variable.mayosaes",
+					"patterns": [{
+						"include": "#identifier"
+					}, {
+						"include": "#invalid-name"
+					}]
+				}
+			},
+			"end": "(?<=;)",
+			"name": "meta.definition.field.mayosaes",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"begin": "(:)|\\b(as)",
+				"beginCaptures": {
+					"1": {
+						"name": "keyword.other.as.mayosaes"
+					},
+					"2": {
+						"name": "keyword.other.as.mayosaes"
+					}
+				},
+				"end": ";",
+				"endCaptures": {
+					"0": {
+						"name": "punctuation.terminator.field.mayosaes"
+					}
+				},
+				"patterns": [{
+					"include": "#modifiered-type"
+				}]
+			}]
+		},
+		"modifiered-type": {
+			"begin": "(\\?|!|\\brequired(?=\\b)|\\bnullable(?=\\b))",
+			"beginCaptures": {
+				"1": {
+					"patterns": [{
+						"include": "#required"
+					}, {
+						"include": "#nullable"
+					}]
+				}
+			},
+			"end": "(?=\\<|=|accepts|returns|;)",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#iteration-and-type"
+			}, {
+				"include": "#iteration-by-word-and-type"
+			}, {
+				"include": "#type"
+			}]
+		},
+		"required": {
+			"match": "(!|required)",
+			"name": "storage.modifier.required.mayosaes"
+		},
+		"nullable": {
+			"match": "(\\?|nullable)",
+			"name": "storage.modifier.nullable.mayosaes"
+		},
+		"iteration-and-type": {
+			"begin": "\\s*(@|%)",
+			"beginCaptures": {
+				"1": {
+					"patterns": [{
+						"match": "@",
+						"name": "storage.type.list-of.mayosaes"
+					}, {
+						"match": "%",
+						"name": "storage.type.dictionary-of.mayosaes"
+					}]
+				}
+			},
+			"end": "(?=\\<|=|accepts|returns|;)",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#iteration-and-type"
+			}, {
+				"include": "#iteration-by-word-and-type"
+			}, {
+				"include": "#type"
+			}]
+		},
+		"iteration-by-word-and-type": {
+			"comment": "\"list of\"とか\"dictionary of\"の\"list\", \"dictionary\"の部分",
+			"begin": "\\b(list|dictionary|hash|map)",
+			"beginCaptures": {
+				"1": {
+					"patterns": [{
+						"match": "list",
+						"name": "storage.modifier.list-of.mayosaes"
+					}, {
+						"match": "dictionary|hash|map",
+						"name": "storage.modifier.dictionary-of.mayosaes"
+					}]
+				}
+			},
+			"end": "(?=\\<|=|accepts|returns|;)",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"comment": "\"list of\"とか\"dictionary of\"の\"of\"の部分",
+				"begin": "(\\s*)(of)(?=\\b)",
+				"beginCaptures": {
+					"1": {
+						"name": "punctuation.iteration.mayosaes"
+					},
+					"2": {
+						"name": "storage.modifier.list-or-dictionary-of.mayosaes"
+					}
+				},
+				"end": "(?=\\<|=|accepts|returns|;)",
+				"patterns": [{
+					"include": "#comment"
+				}, {
+					"include": "#iteration-and-type"
+				}, {
+					"include": "#iteration-by-word-and-type"
+				}, {
+					"include": "#type"
+				}]
+			}]
+		},
+		"type": {
+			"begin": "",
+			"end": "(?=\\<|=|accepts|returns|;)",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#entity"
+			}, {
+				"include": "#primitive-type"
+			}, {
+				"include": "#reference-type"
+			}, {
+				"include": "#pseudo-type"
+			}]
+		},
+		"pseudo-type": {
+			"include": "#string"
+		},
+		"primitive-type": {
+			"patterns":[{
+				"begin": "\\b(integer\\()",
+				"beginCaptures": {
+					"1": {
+						"name": "storage.type.integer-begin.mayosaes"
+					}
+				},
+				"end": "\\)",
+				"endCaptures": {
+					"0": {
+						"name": "storage.type.integer-end.mayosaes"
+					}
+				},
+				"patterns": [{
+					"match": "8|16|32|64",
+					"name": "storage.type.integer-size.mayosaes"
+				}, {
+					"match": "\\d+",
+					"name": "invalid.illegal.integer-size.wrong-number.mayosaes"
+				}, {
+					"match": "[^)[:space:]]+",
+					"name": "invalid.illegal.integer-size.not-number.mayosaes"
+				}]
+			}, {
+				"begin": "\\b(float\\()",
+				"beginCaptures": {
+					"1": {
+						"name": "storage.type.float-begin.mayosaes"
+					}
+				},
+				"end": "(?<=\\))",
+				"patterns": [{
+					"begin": "(binary|decimal)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.float-base.mayosaes"
+						}
+					},
+					"end": "(?<=\\))",
+					"patterns": [{
+						"begin": "[[:alnum:]]+",
+						"beginCaptures": {
+							"0": {
+								"patterns": [{
+									"match": "32|64",
+									"name": "storage.type.float-size.mayosaes"
+								}, {
+									"match": ".+",
+									"name": "invalid.illegal.float-size.mayosaes"
+								}]
+							}
+						},
+						"end": "\\)",
+						"endCaptures": {
+							"0": {
+								"name": "storage.type.float-end.mayosaes"
+							}
+						},
+						"patterns": [{
+							"match": "[^[:space:])]+",
+							"name": "invalid.illegal.float-definition.mayosaes"
+						}]
+					}]
+				}]
+			}, {
+				"match": "\\b(bool(?:ean)?|int(?:8|16|32|64|eger)?|s?byte|short|long|float(?:32|64)?|double|real|number|decimal(?:32|64)?|numeric|money|date(?:time)?|time(?:stamp)?|str(?:ing)?|bin(?:ary)?)(?!\\()(?=\\b)",
+				"captures": {
+					"1": {
+						"name": "storage.type.primitive.mayosaes"
+					}
+				}
+			}]
+		},
+		"reference-type": {
+			"match": "([.[:alnum:]]+)",
+			"captures": {
+				"1": {
+					"name": "support.type.mayosaes",
+					"patterns": [{
+						"include": "#qualified-name"
+					}, {
+						"include": "#invalid-name"
+					}]
+				}
+			}
+		},
+		"service": {
+			"begin": "\\b(service)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.service.mayosaes"
+				}
+			},
+			"end": "(?<=})",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"comment": "serviceの定義(service ServiceXXX ...)の、「service」を除いた部分",
+				"begin": "\\b([[:alnum:]]+)\\b",
+				"beginCaptures": {
+					"1": {
+						"name": "entity.name.type.service.mayosaes",
+						"patterns": [{
+							"include": "#identifier"
+						}, {
+							"include": "#invalid-name"
+						}]
+					}
+				},
+				"end": "(?<=})",
+				"patterns": [{
+					"include": "#comment"
+				}, {
+					"begin": "{",
+					"end": "}",
+					"patterns": [{
+						"include": "#comment"
+					}, {
+						"include": "#doc-comment"
+					}, {
+						"include": "#method-definition"
+					}],
+					"name": "meta.service.body.mayosaes"
+				}]
+			}],
+			"name": "meta.service.mayosaes"
+		},
+		"method-definition": {
+			"begin": "([[:alnum:]]+)\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "support.function.mayosaes",
+					"patterns": [{
+						"include": "#identifier"
+					}, {
+						"include": "#invalid-name"
+					}]
+				}
+			},
+			"end": "(?<=;)",
+			"name": "meta.definition.method.mayosaes",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"begin": "(:)|\\b(as)",
+				"beginCaptures": {
+					"1": {
+						"name": "keyword.other.as.mayosaes"
+					},
+					"2": {
+						"name": "keyword.other.as.mayosaes"
+					}
+				},
+				"end": ";",
+				"endCaptures": {
+					"0": {
+						"name": "punctuation.terminator.method.mayosaes"
+					}
+				},
+				"patterns": [{
+					"include": "#method-request-response"
+				}]
+			}]
+		},
+		"method-request-response": {
+			"begin": "(?:\\b(?:(accepts)|(returns))(?=\\b)|\\s*(?:(<=)|(=>)))",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.modifier.accepts.mayosaes"
+				},
+				"2": {
+					"name": "storage.modifier.returns.mayosaes"
+				},
+				"3": {
+					"name": "storage.modifier.accepts.mayosaes"
+				},
+				"4": {
+					"name": "storage.modifier.returns.mayosaes"
+				}
+			},
+			"end": "(?=;)",
+			"patterns": [{
+				"include": "#comment"
+			}, {
+				"include": "#modifiered-type"
+			}, {
+				"include": "#method-request-response"
+			}]
+		},
+		"identifier": {
+			"match": "\\b[[:upper:]][[:alnum:]]*"
+		},
+		"qualified-name": {
+			"match": "\\b([[:upper:]][[:alnum:]]*)(\\.[[:upper:]][[:alnum:]]*)*"
+		},
+		"qualified-name-with-wildcard": {
+			"match": "\\b([[:upper:]][[:alnum:]]*)(\\.[[:upper:]][[:alnum:]]*)*(\\.\\*)?"
+		},
+		"invalid-name": {
+			"match": "[.*[:alnum:]]+",
+			"name": "invalid.illegal.mayosaes"
+		},
+		"string": {
+			"name": "string.quoted.double.mayosaes",
+			"match": "\"((?:(?:\\\\(?:b|f|n|r|t|\\\\|'|\"|x|u))|[^\\\\\"])*)\"",
+			"captures": {
+				"1": {
+					"patterns": [{
+						"match": "\\\\(?:b|f|n|r|t|\\\\|'|\"|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})",
+						"name": "constant.character.escape.mayosaes"
+					}, {
+						"match": "\\\\(?:x|u)",
+						"name": "invalid.illegal.constant.character.escape.mayosaes"
+					}]
+				}
+			}
+		},
+		"doc-comment": {
+			"name": "comment.block.documentation.mayosaes",
+			"begin": "\\/\\#",
+			"end": "\\#\\/",
+			"patterns": [{
+				"match": "(@[[:alpha:]]+)\\b",
+				"name": "storage.type.class.mayosaes"
+			}, {
+				"include": "text.xml"
+			}]
+		},
+		"comment": {
+			"patterns": [{
+				"name":"comment.block.mayosaes",
+				"begin": "(^[ \\t]+)?(\\/\\*)",
+				"beginCaptures": {
+					"1": {
+						"name": "punctuation.whitespace.comment.leading.mayosaes"
+					}
+				},
+				"end": "\\*\\/"
+			}, {
+				"name": "comment.line.double-slash.mayosaes",
+				"begin": "(^[ \\t]+)?(//)",
+				"beginCaptures": {
+					"1": {
+						"name": "punctuation.whitespace.comment.leading.mayosaes"
+					},
+					"2": {
+						"name": "punctuation.definition.comment.mayosaes"
+					}
+				},
+				"end": "(?=^)"
+			}]
+		}
+		"shebang": {
+			"name": "comment.line.shebang.aes",
+			"match": "\\A(#!).*(?=$)",
+			"captures": {
+				"1": {
+					"name": "punctuation.definition.comment.aes"
+				}
+			}
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.mayosaes",
+				"match": "\\b(if|while|for|return)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.mayosaes",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.mayosaes",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.aes"
+}
