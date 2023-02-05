@@ -2,260 +2,203 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "ae script",
 	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#shebang"
-		},
-		{
-			"include": "#strings"
-		},
-		{
-			"include": "#document"
-		}
+		{ "include": "#keywords" },
+		{ "include": "#shebang" },
+		{ "include": "#strings" },
+		{ "include": "#document" }
 	],
 	"repository": {
-"document": {
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#namespace"
-			}]
+		"document": {
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#namespace" }
+			]
 		},
 		"namespace": {
 			"begin": "\\b(namespace)(?<=\\b[.[:alnum:]]+|[ \\t]*/[/*])",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.type.namespace.aes"
-				}
-			},
+			"beginCaptures": { "1": { "name": "storage.type.namespace.aes" } },
 			"end": "(?<=})",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"begin": "\\b([.[:alnum:]]+)\\b",
-				"beginCaptures": {
-					"1": {
-						"name": "entity.name.type.namespace.aes",
-						"patterns": [{
-							"include": "#qualified-name"
-						}, {
-							"include": "#invalid-name"
-						}]
-					}
-				},
-				"end": "(?<=})",
-				"patterns": [{
-					"include": "#comment"
-				}, {
-					"include": "#import-clause"
-				}, {
-					"begin": "{",
-					"end": "}",
-					"patterns": [{
-						"include": "#declarations"
-					}]
-				}]
-			}],
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "\\b([.[:alnum:]]+)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.type.namespace.aes",
+							"patterns": [
+								{ "include": "#qualified-name" },
+								{ "include": "#invalid-name" }
+							]
+						}
+					},
+					"end": "(?<=})",
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#import-clause" },
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [ { "include": "#declarations" } ]
+						}
+					]
+				}
+			],
 			"name": "meta.namespace.aes"
 		},
-		"import-clause":{
+		"import-clause": {
 			"begin": "(\\bimport\\b|[ \\t]*\\+=)",
 			"end": "(?={)",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.import.aes"
+			"beginCaptures": { "1": { "name": "keyword.control.import.aes" } },
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "(\\b[.\\*[:alnum:]]+)",
+					"end": "(?={)",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.type.import.aes",
+							"patterns": [
+								{ "include": "#qualified-name-with-wildcard" },
+								{ "include": "#invalid-name" }
+							]
+						}
+					},
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#import-clause" }
+					]
 				}
-			},
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"begin": "(\\b[.\\*[:alnum:]]+)",
-				"end": "(?={)",
-				"beginCaptures": {
-					"1": {
-						"name": "entity.name.type.import.aes",
-						"patterns": [{
-							"include": "#qualified-name-with-wildcard"
-						}, {
-							"include": "#invalid-name"
-						}]
-					}
-				},
-				"patterns": [{
-					"include": "#comment"
-				}, {
-					"include": "#import-clause"
-				}]
-			}]
+			]
 		},
-		"declarations":{
+		"declarations": {
 			"begin": "(?<={)",
 			"end": "(?=})",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#doc-comment"
-			}, {
-				"include": "#abstract-entity"
-			}, {
-				"include": "#entity"
-			}, {
-				"include": "#service"
-			}]
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#doc-comment" },
+				{ "include": "#abstract-entity" },
+				{ "include": "#entity" },
+				{ "include": "#service" }
+			]
 		},
 		"abstract-entity": {
 			"begin": "\\b(abstract)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.modifier.aes"
-				}
-			},
+			"beginCaptures": { "1": { "name": "storage.modifier.aes" } },
 			"end": "(?<=})",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#entity"
-			}]
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#entity" }
+			]
 		},
 		"entity": {
 			"begin": "\\b(entity)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.type.entity.aes"
-				}
-			},
+			"beginCaptures": { "1": { "name": "storage.type.entity.aes" } },
 			"end": "(?<=})",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"comment": "entityの定義(entity Entity ...)の、「entitiy」を除いた部分",
-				"begin": "\\b([[:alnum:]]+)\\b",
-				"beginCaptures": {
-					"1": {
-						"name": "entity.name.type.namespace.aes",
-						"patterns": [{
-							"include": "#identifier"
-						}, {
-							"include": "#invalid-name"
-						}]
-					}
-				},
-				"end": "(?<=})",
-				"patterns": [{
-					"include": "#comment"
-				}, {
-					"include": "#include-clause"
-				}, {
-					"begin": "{",
-					"end": "}",
-					"patterns": [{
-						"include": "#comment"
-					}, {
-						"include": "#doc-comment"
-					}, {
-						"include": "#field-definition"
-					}],
-					"name": "meta.entity.body.aes"
-				}]
-			}],
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"comment": "entityの定義(entity Entity ...)の、「entitiy」を除いた部分",
+					"begin": "\\b([[:alnum:]]+)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.type.namespace.aes",
+							"patterns": [
+								{ "include": "#identifier" },
+								{ "include": "#invalid-name" }
+							]
+						}
+					},
+					"end": "(?<=})",
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#include-clause" },
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{ "include": "#comment" },
+								{ "include": "#doc-comment" },
+								{ "include": "#field-definition" }
+							],
+							"name": "meta.entity.body.aes"
+						}
+					]
+				}
+			],
 			"name": "meta.entity.aes"
 		},
 		"include-clause": {
 			"begin": "(\\bincludes\\b|[ \\t]*\\+=)",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.includes.aes"
-				}
-			},
+			"beginCaptures": { "1": { "name": "keyword.control.includes.aes" } },
 			"end": "(?={)",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#entity"
-			}, {
-				"begin": "([[:upper:]][.*[:alnum:]]*)",
-				"end": "(?={)",
-				"beginCaptures": {
-					"1": {
-						"name": "entity.name.type.include.aes",
-						"patterns": [{
-							"include": "#qualified-name"
-						}, {
-							"include": "#invalid-name"
-						}]
-					}
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#entity" },
+				{
+					"begin": "([[:upper:]][.*[:alnum:]]*)",
+					"end": "(?={)",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.type.include.aes",
+							"patterns": [
+								{ "include": "#qualified-name" },
+								{ "include": "#invalid-name" }
+							]
+						}
+					},
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#include-clause" }
+					]
 				},
-				"patterns": [{
-					"include": "#comment"
-				}, {
-					"include": "#include-clause"
-				}]
-			}, {
-				"include": "#doc-comment"
-			}, {
-				"include": "#include-clause"
-			}]
+				{ "include": "#doc-comment" },
+				{ "include": "#include-clause" }
+			]
 		},
 		"field-definition": {
 			"begin": "([[:alnum:]]+)\\s*",
 			"beginCaptures": {
 				"1": {
 					"name": "support.variable.aes",
-					"patterns": [{
-						"include": "#identifier"
-					}, {
-						"include": "#invalid-name"
-					}]
+					"patterns": [
+						{ "include": "#identifier" },
+						{ "include": "#invalid-name" }
+					]
 				}
 			},
 			"end": "(?<=;)",
 			"name": "meta.definition.field.aes",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"begin": "(:)|\\b(as)",
-				"beginCaptures": {
-					"1": {
-						"name": "keyword.other.as.aes"
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "(:)|\\b(as)",
+					"beginCaptures": {
+						"1": { "name": "keyword.other.as.aes" },
+						"2": { "name": "keyword.other.as.aes" }
 					},
-					"2": {
-						"name": "keyword.other.as.aes"
-					}
-				},
-				"end": ";",
-				"endCaptures": {
-					"0": {
-						"name": "punctuation.terminator.field.aes"
-					}
-				},
-				"patterns": [{
-					"include": "#modifiered-type"
-				}]
-			}]
+					"end": ";",
+					"endCaptures": { "0": { "name": "punctuation.terminator.field.aes" } },
+					"patterns": [ { "include": "#modifiered-type" } ]
+				}
+			]
 		},
 		"modifiered-type": {
 			"begin": "(\\?|!|\\brequired(?=\\b)|\\bnullable(?=\\b))",
 			"beginCaptures": {
 				"1": {
-					"patterns": [{
-						"include": "#required"
-					}, {
-						"include": "#nullable"
-					}]
+					"patterns": [
+						{ "include": "#required" },
+						{ "include": "#nullable" }
+					]
 				}
 			},
 			"end": "(?=\\<|=|accepts|returns|;)",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#iteration-and-type"
-			}, {
-				"include": "#iteration-by-word-and-type"
-			}, {
-				"include": "#type"
-			}]
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#iteration-and-type" },
+				{ "include": "#iteration-by-word-and-type" },
+				{ "include": "#type" }
+			]
 		},
 		"required": {
 			"match": "(!|required)",
@@ -269,210 +212,190 @@
 			"begin": "\\s*(@|%)",
 			"beginCaptures": {
 				"1": {
-					"patterns": [{
-						"match": "@",
-						"name": "storage.type.list-of.aes"
-					}, {
-						"match": "%",
-						"name": "storage.type.dictionary-of.aes"
-					}]
+					"patterns": [
+						{
+							"match": "@",
+							"name": "storage.type.list-of.aes"
+						},
+						{
+							"match": "%",
+							"name": "storage.type.dictionary-of.aes"
+						}
+					]
 				}
 			},
 			"end": "(?=\\<|=|accepts|returns|;)",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#iteration-and-type"
-			}, {
-				"include": "#iteration-by-word-and-type"
-			}, {
-				"include": "#type"
-			}]
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#iteration-and-type" },
+				{ "include": "#iteration-by-word-and-type" },
+				{ "include": "#type" }
+			]
 		},
 		"iteration-by-word-and-type": {
 			"comment": "\"list of\"とか\"dictionary of\"の\"list\", \"dictionary\"の部分",
 			"begin": "\\b(list|dictionary|hash|map)",
 			"beginCaptures": {
 				"1": {
-					"patterns": [{
-						"match": "list",
-						"name": "storage.modifier.list-of.aes"
-					}, {
-						"match": "dictionary|hash|map",
-						"name": "storage.modifier.dictionary-of.aes"
-					}]
+					"patterns": [
+						{
+							"match": "list",
+							"name": "storage.modifier.list-of.aes"
+						},
+						{
+							"match": "dictionary|hash|map",
+							"name": "storage.modifier.dictionary-of.aes"
+						}
+					]
 				}
 			},
 			"end": "(?=\\<|=|accepts|returns|;)",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"comment": "\"list of\"とか\"dictionary of\"の\"of\"の部分",
-				"begin": "(\\s*)(of)(?=\\b)",
-				"beginCaptures": {
-					"1": {
-						"name": "punctuation.iteration.aes"
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"comment": "\"list of\"とか\"dictionary of\"の\"of\"の部分",
+					"begin": "(\\s*)(of)(?=\\b)",
+					"beginCaptures": {
+						"1": { "name": "punctuation.iteration.aes" },
+						"2": { "name": "storage.modifier.list-or-dictionary-of.aes" }
 					},
-					"2": {
-						"name": "storage.modifier.list-or-dictionary-of.aes"
-					}
-				},
-				"end": "(?=\\<|=|accepts|returns|;)",
-				"patterns": [{
-					"include": "#comment"
-				}, {
-					"include": "#iteration-and-type"
-				}, {
-					"include": "#iteration-by-word-and-type"
-				}, {
-					"include": "#type"
-				}]
-			}]
+					"end": "(?=\\<|=|accepts|returns|;)",
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#iteration-and-type" },
+						{ "include": "#iteration-by-word-and-type" },
+						{ "include": "#type" }
+					]
+				}
+			]
 		},
 		"type": {
 			"begin": "",
 			"end": "(?=\\<|=|accepts|returns|;)",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#entity"
-			}, {
-				"include": "#primitive-type"
-			}, {
-				"include": "#reference-type"
-			}, {
-				"include": "#pseudo-type"
-			}]
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#entity" },
+				{ "include": "#primitive-type" },
+				{ "include": "#reference-type" },
+				{ "include": "#pseudo-type" }
+			]
 		},
 		"pseudo-type": {
 			"include": "#string"
 		},
 		"primitive-type": {
-			"patterns":[{
-				"begin": "\\b(integer\\()",
-				"beginCaptures": {
-					"1": {
-						"name": "storage.type.integer-begin.aes"
-					}
-				},
-				"end": "\\)",
-				"endCaptures": {
-					"0": {
-						"name": "storage.type.integer-end.aes"
-					}
-				},
-				"patterns": [{
-					"match": "8|16|32|64",
-					"name": "storage.type.integer-size.aes"
-				}, {
-					"match": "\\d+",
-					"name": "invalid.illegal.integer-size.wrong-number.aes"
-				}, {
-					"match": "[^)[:space:]]+",
-					"name": "invalid.illegal.integer-size.not-number.aes"
-				}]
-			}, {
-				"begin": "\\b(float\\()",
-				"beginCaptures": {
-					"1": {
-						"name": "storage.type.float-begin.aes"
-					}
-				},
-				"end": "(?<=\\))",
-				"patterns": [{
-					"begin": "(binary|decimal)",
-					"beginCaptures": {
-						"1": {
-							"name": "storage.type.float-base.aes"
+			"patterns": [
+				{
+					"begin": "\\b(integer\\()",
+					"beginCaptures": { "1": { "name": "storage.type.integer-begin.aes" } },
+					"end": "\\)",
+					"endCaptures": { "0": { "name": "storage.type.integer-end.aes" } },
+					"patterns": [
+						{
+							"match": "8|16|32|64",
+							"name": "storage.type.integer-size.aes"
+						},
+						{
+							"match": "\\d+",
+							"name": "invalid.illegal.integer-size.wrong-number.aes"
+						},
+						{
+							"match": "[^)[:space:]]+",
+							"name": "invalid.illegal.integer-size.not-number.aes"
 						}
-					},
+					]
+				},
+				{
+					"begin": "\\b(float\\()",
+					"beginCaptures": { "1": { "name": "storage.type.float-begin.aes" } },
 					"end": "(?<=\\))",
-					"patterns": [{
-						"begin": "[[:alnum:]]+",
-						"beginCaptures": {
-							"0": {
-								"patterns": [{
-									"match": "32|64",
-									"name": "storage.type.float-size.aes"
-								}, {
-									"match": ".+",
-									"name": "invalid.illegal.float-size.aes"
-								}]
-							}
-						},
-						"end": "\\)",
-						"endCaptures": {
-							"0": {
-								"name": "storage.type.float-end.aes"
-							}
-						},
-						"patterns": [{
-							"match": "[^[:space:])]+",
-							"name": "invalid.illegal.float-definition.aes"
-						}]
-					}]
-				}]
-			}, {
-				"match": "\\b(bool(?:ean)?|int(?:8|16|32|64|eger)?|s?byte|short|long|float(?:32|64)?|double|real|number|decimal(?:32|64)?|numeric|money|date(?:time)?|time(?:stamp)?|str(?:ing)?|bin(?:ary)?)(?!\\()(?=\\b)",
-				"captures": {
-					"1": {
-						"name": "storage.type.primitive.aes"
-					}
+					"patterns": [
+						{
+							"begin": "(binary|decimal)",
+							"beginCaptures": { "1": { "name": "storage.type.float-base.aes" } },
+							"end": "(?<=\\))",
+							"patterns": [
+								{
+									"begin": "[[:alnum:]]+",
+									"beginCaptures": {
+										"0": {
+											"patterns": [
+												{
+													"match": "32|64",
+													"name": "storage.type.float-size.aes"
+												},
+												{
+													"match": ".+",
+													"name": "invalid.illegal.float-size.aes"
+												}
+											]
+										}
+									},
+									"end": "\\)",
+									"endCaptures": { "0": { "name": "storage.type.float-end.aes" } },
+									"patterns": [
+										{
+											"match": "[^[:space:])]+",
+											"name": "invalid.illegal.float-definition.aes"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"match": "\\b(bool(?:ean)?|int(?:8|16|32|64|eger)?|s?byte|short|long|float(?:32|64)?|double|real|number|decimal(?:32|64)?|numeric|money|date(?:time)?|time(?:stamp)?|str(?:ing)?|bin(?:ary)?)(?!\\()(?=\\b)",
+					"captures": { "1": { "name": "storage.type.primitive.aes" } }
 				}
-			}]
+			]
 		},
 		"reference-type": {
 			"match": "([.[:alnum:]]+)",
 			"captures": {
 				"1": {
 					"name": "support.type.aes",
-					"patterns": [{
-						"include": "#qualified-name"
-					}, {
-						"include": "#invalid-name"
-					}]
+					"patterns": [
+						{ "include": "#qualified-name" },
+						{ "include": "#invalid-name" }
+					]
 				}
 			}
 		},
 		"service": {
 			"begin": "\\b(service)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.type.service.aes"
-				}
-			},
+			"beginCaptures": { "1": { "name": "storage.type.service.aes" } },
 			"end": "(?<=})",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"comment": "serviceの定義(service ServiceXXX ...)の、「service」を除いた部分",
-				"begin": "\\b([[:alnum:]]+)\\b",
-				"beginCaptures": {
-					"1": {
-						"name": "entity.name.type.service.aes",
-						"patterns": [{
-							"include": "#identifier"
-						}, {
-							"include": "#invalid-name"
-						}]
-					}
-				},
-				"end": "(?<=})",
-				"patterns": [{
-					"include": "#comment"
-				}, {
-					"begin": "{",
-					"end": "}",
-					"patterns": [{
-						"include": "#comment"
-					}, {
-						"include": "#doc-comment"
-					}, {
-						"include": "#method-definition"
-					}],
-					"name": "meta.service.body.aes"
-				}]
-			}],
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"comment": "serviceの定義(service ServiceXXX ...)の、「service」を除いた部分",
+					"begin": "\\b([[:alnum:]]+)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.name.type.service.aes",
+							"patterns": [
+								{ "include": "#identifier" },
+								{ "include": "#invalid-name" }
+							]
+						}
+					},
+					"end": "(?<=})",
+					"patterns": [
+						{ "include": "#comment" },
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{ "include": "#comment" },
+								{ "include": "#doc-comment" },
+								{ "include": "#method-definition" }
+							],
+							"name": "meta.service.body.aes"
+						}
+					]
+				}
+			],
 			"name": "meta.service.aes"
 		},
 		"method-definition": {
@@ -480,62 +403,42 @@
 			"beginCaptures": {
 				"1": {
 					"name": "support.function.aes",
-					"patterns": [{
-						"include": "#identifier"
-					}, {
-						"include": "#invalid-name"
-					}]
+					"patterns": [
+						{ "include": "#identifier" },
+						{ "include": "#invalid-name" }
+					]
 				}
 			},
 			"end": "(?<=;)",
 			"name": "meta.definition.method.aes",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"begin": "(:)|\\b(as)",
-				"beginCaptures": {
-					"1": {
-						"name": "keyword.other.as.aes"
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "(:)|\\b(as)",
+					"beginCaptures": {
+						"1": { "name": "keyword.other.as.aes" },
+						"2": { "name": "keyword.other.as.aes" }
 					},
-					"2": {
-						"name": "keyword.other.as.aes"
-					}
-				},
-				"end": ";",
-				"endCaptures": {
-					"0": {
-						"name": "punctuation.terminator.method.aes"
-					}
-				},
-				"patterns": [{
-					"include": "#method-request-response"
-				}]
-			}]
+					"end": ";",
+					"endCaptures": { "0": { "name": "punctuation.terminator.method.aes" } },
+					"patterns": [ { "include": "#method-request-response" } ]
+				}
+			]
 		},
 		"method-request-response": {
 			"begin": "(?:\\b(?:(accepts)|(returns))(?=\\b)|\\s*(?:(<=)|(=>)))",
 			"beginCaptures": {
-				"1": {
-					"name": "storage.modifier.accepts.aes"
-				},
-				"2": {
-					"name": "storage.modifier.returns.aes"
-				},
-				"3": {
-					"name": "storage.modifier.accepts.aes"
-				},
-				"4": {
-					"name": "storage.modifier.returns.aes"
-				}
+				"1": { "name": "storage.modifier.accepts.aes" },
+				"2": { "name": "storage.modifier.returns.aes" },
+				"3": { "name": "storage.modifier.accepts.aes" },
+				"4": { "name": "storage.modifier.returns.aes" }
 			},
 			"end": "(?=;)",
-			"patterns": [{
-				"include": "#comment"
-			}, {
-				"include": "#modifiered-type"
-			}, {
-				"include": "#method-request-response"
-			}]
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#modifiered-type" },
+				{ "include": "#method-request-response" }
+			]
 		},
 		"identifier": {
 			"match": "\\b[[:upper:]][[:alnum:]]*"
@@ -555,13 +458,16 @@
 			"match": "\"((?:(?:\\\\(?:b|f|n|r|t|\\\\|'|\"|x|u))|[^\\\\\"])*)\"",
 			"captures": {
 				"1": {
-					"patterns": [{
-						"match": "\\\\(?:b|f|n|r|t|\\\\|'|\"|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})",
-						"name": "constant.character.escape.aes"
-					}, {
-						"match": "\\\\(?:x|u)",
-						"name": "invalid.illegal.constant.character.escape.aes"
-					}]
+					"patterns": [
+						{
+							"match": "\\\\(?:b|f|n|r|t|\\\\|'|\"|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})",
+							"name": "constant.character.escape.aes"
+						},
+						{
+							"match": "\\\\(?:x|u)",
+							"name": "invalid.illegal.constant.character.escape.aes"
+						}
+					]
 				}
 			}
 		},
@@ -569,63 +475,57 @@
 			"name": "comment.block.documentation.aes",
 			"begin": "\\/\\#",
 			"end": "\\#\\/",
-			"patterns": [{
-				"match": "(@[[:alpha:]]+)\\b",
-				"name": "storage.type.class.aes"
-			}, {
-				"include": "text.xml"
-			}]
-		},
-		"comment": {
-			"patterns": [{
-				"name":"comment.block.aes",
-				"begin": "(^[ \\t]+)?(\\/\\*)",
-				"beginCaptures": {
-					"1": {
-						"name": "punctuation.whitespace.comment.leading.aes"
-					}
-				},
-				"end": "\\*\\/"
-			}, {
-				"name": "comment.line.double-slash.aes",
-				"begin": "(^[ \\t]+)?(//)",
-				"beginCaptures": {
-					"1": {
-						"name": "punctuation.whitespace.comment.leading.aes"
-					},
-					"2": {
-						"name": "punctuation.definition.comment.aes"
-					}
-				},
-				"end": "(?=^)"
-			}]
-		}
-		"shebang": {
-			"name": "comment.line.shebang.aes",
-			"match": "\\A(#!).*(?=$)",
-			"captures": {
-				"1": {
-					"name": "punctuation.definition.comment.aes"
-				}
-			}
-		},
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.aes",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.aes",
-			"begin": "\"",
-			"end": "\"",
 			"patterns": [
 				{
-					"name": "constant.character.escape.aes",
-					"match": "\\\\."
+					"match": "(@[[:alpha:]]+)\\b",
+					"name": "storage.type.class.aes"
+				},
+				{ "include": "text.xml" }
+			]
+		},
+		"comment": {
+			"patterns": [
+				{
+					"name": "comment.block.aes",
+					"begin": "(^[ \\t]+)?(\\/\\*)",
+					"beginCaptures": { "1": { "name": "punctuation.whitespace.comment.leading.aes" } },
+					"end": "\\*\\/"
+				},
+				{
+					"name": "comment.line.double-slash.aes",
+					"begin": "(^[ \\t]+)?(//)",
+					"beginCaptures": {
+						"1": { "name": "punctuation.whitespace.comment.leading.aes" },
+						"2": { "name": "punctuation.definition.comment.aes" }
+					},
+					"end": "(?=^)"
 				}
 			]
 		}
-	},
-	"scopeName": "source.aes"
+		"shebang": {
+			"name": "comment.line.shebang.aes",
+		"match": "\\A(#!).*(?=$)",
+		"captures": {
+			"1": {
+					"name": "punctuation.definition.comment.aes"
+		}
+	}
+}, "keywords": {
+	"patterns": [
+		{
+			"name": "keyword.control.aes",
+			"match": "\\b(if|while|for|return)\\b"
+		}
+	]
+}, "strings": {
+	"name": "string.quoted.double.aes",
+	"begin": "\"",
+	"end": "\"",
+	"patterns": [
+		{
+			"name": "constant.character.escape.aes",
+			"match": "\\\\."
+		}
+	]
 }
+	}, "scopeName": "source.aes" }
