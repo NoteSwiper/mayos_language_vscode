@@ -1,1 +1,9 @@
-int script = 0;
+import com.mayos.core; 
+class trashbin {
+    api struct info {
+        int trashbinId {
+            return trashbin:getTrashBinID();
+        }
+    }
+}
+
