@@ -1,0 +1,9 @@
+{
+    "Import Method": {
+      "prefix": ["import","Import","imp","package"],
+      "body": [
+        "get $1;"
+      ],
+      "description": "Imports an module from \"built-in\" package or \"cloud\" provide package."
+    }
+  }

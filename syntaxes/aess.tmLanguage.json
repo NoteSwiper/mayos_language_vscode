@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-    "name": "aeScript",
+    "name": "aeSysScript",
     "patterns": [
         { "include": "#keywords" },
         { "include": "#shebang" },
@@ -546,5 +546,5 @@
             ]
         }
     },
-    "scopeName": "source.aes"
+    "scopeName": "source.aess"
 }

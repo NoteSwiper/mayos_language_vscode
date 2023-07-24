@@ -1,0 +1,68 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "aeIni",
+    "scopeName": "source.aeini",
+    "patterns": [
+        {
+            "begin": "(^[ \\t]+)?(?=#)",
+            "beginCaptures": { "1": { "name": "punctuation.whitespace.comment.leading.aeini" } },
+            "end": "(?!\\G)",
+            "patterns": [
+                {
+                    "begin": "#",
+                    "beginCaptures": { "0": { "name": "punctuation.definition.comment.aeini" } },
+                    "end": "\\n",
+                    "name": "comment.line.number-sign.aeini"
+                }
+            ]
+        },
+        {
+            "begin": "(^[ \\t]+)?(?=;)",
+            "beginCaptures": { "1": { "name": "punctuation.whitespace.comment.leading.aeini" } },
+            "end": "(?!\\G)",
+            "patterns": [
+                {
+                    "begin": ";",
+                    "beginCaptures": { "0": { "name": "punctuation.definition.comment.aeini" } },
+                    "end": "\\n",
+                    "name": "comment.line.semicolon.aeini"
+                }
+            ]
+        },
+        {
+            "captures": {
+                "1": { "name": "keyword.other.definition.aeini" },
+                "2": { "name": "punctuation.separator.key-value.aeini" }
+            },
+            "match": "\\b([a-zA-Z0-9_.-]+)\\b\\s*(=)"
+        },
+        {
+            "captures": {
+                "1": { "name": "punctuation.definition.entity.aeini" },
+                "3": { "name": "punctuation.definition.entity.aeini" }
+            },
+            "match": "^(\\[)(.*?)(\\])",
+            "name": "entity.name.section.group-title.aeini"
+        },
+        {
+            "begin": "'",
+            "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.aeini" } },
+            "end": "'",
+            "endCaptures": { "0": { "name": "punctuation.definition.string.end.aeini" } },
+            "name": "string.quoted.single.aeini",
+            "patterns": [
+                {
+                    "match": "\\\\.",
+                    "name": "constant.character.escape.aeini"
+                }
+            ]
+        },
+        {
+            "begin": "\"",
+            "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.aeini" } },
+            "end": "\"",
+            "endCaptures": { "0": { "name": "punctuation.definition.string.end.aeini" } },
+            "name": "string.quoted.double.aeini"
+        }
+    ]
+}

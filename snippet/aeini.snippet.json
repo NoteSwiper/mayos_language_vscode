@@ -1,0 +1,9 @@
+{
+    "Comment": {
+      "prefix": [";","//","#","--"],
+      "body": [
+        ";; $1"
+      ],
+      "description": "Imports an module from \"built-in\" package or \"cloud\" provide package."
+    }
+  }

@@ -1,0 +1,150 @@
+{
+    "Import Method": {
+      "prefix": ["import","Import","imp","package"],
+      "body": [
+        "import ${1:PackageNamespace}.${2:PackageDividerName}.${3:ModuleName};"
+      ],
+      "description": "Imports an module from \"built-in\" package or \"cloud\" provide package."
+    },
+    "Assert Method": {
+      "prefix": "assert",
+      "body": [
+        "assert ${1:index}"
+      ],
+      "description": ""
+    },
+    "Break Method": {
+      "prefix": "break",
+      "body": [
+        "break;"
+      ],
+      "description": ""
+    },
+    "Const Method": {
+      "prefix": "const",
+      "body": [
+        "const ${1:Name}: ${2:DataType} = ${3:Value};"
+      ],
+      "description": ""
+    },
+    "do": {
+      "prefix": "do",
+      "body": [
+        "do ${1:Function};"
+      ],
+      "description": ""
+    },
+    "skip": {
+      "prefix": "skip",
+      "body": [
+        "skip;"
+      ],
+      "description": ""
+    },
+    "throw": {
+      "prefix": "throw",
+      "body": [
+        "throw '${1:ExceptionCode}'"
+      ],
+      "description": ""
+    },
+    "var": {
+      "prefix": "var",
+      "body": [
+        "var ${1:DataType} ${2:VariableName} = ${3:InitialValue}"
+      ],
+      "description": ""
+    },
+    "class": {
+      "prefix": "class",
+      "body": [
+        "class ${1:Name}(${2:AdditionalInfo}) {",
+        "  ${1:Name}(${2:AdditionalInfo) {",
+        "    ",
+        "  };",
+        "};"
+      ],
+      "description": ""
+    },
+    "enum": {
+      "prefix": "enum",
+      "body": [
+        "enum ${1:Name} {",
+        "  ",
+        "};"
+      ],
+      "description": ""
+    },
+    "for": {
+      "prefix": "for",
+      "body": [
+        "for i = ${1:InitialValue}, ${2:EndValue}, ${3:IncreaseValue} {",
+        "  ",
+        "};"
+      ],
+      "description": ""
+    },
+    "function": {
+      "prefix": "function",
+      "body": [
+        "function ${1:Name}(${2:Param}: ${3: DataType}) {",
+        "  ",
+        "};"
+      ],
+      "description": ""
+    },
+    "if": {
+      "prefix": "if",
+      "body": [
+        "if ${1:Instances} {",
+        "  ",
+        "}"
+      ],
+      "description": ""
+    },
+    "elseif": {
+      "prefix": "elseif",
+      "body": [
+        "elseif ${1:Instances} {",
+        "  ",
+        "}"
+      ],
+      "description": ""
+    },
+    "else": {
+      "prefix": "else",
+      "body": [
+        "else {",
+        "  ",
+        "}"
+      ],
+      "description": ""
+    },
+    "switch": {
+      "prefix": "switch",
+      "body": [
+        "switch ${1:Block} {",
+        "  ",
+        "};"
+      ],
+      "description": ""
+    },
+    "try": {
+      "prefix": "try",
+      "body": [
+        "try ${1:Detector} {",
+        "  ",
+        "};"
+      ],
+      "description": ""
+    },
+    "while": {
+      "prefix": "while",
+      "body": [
+        "while ${1:Block}(${2:Cond}) {",
+        "  ",
+        "}"
+      ],
+      "description": ""
+    }
+  }
