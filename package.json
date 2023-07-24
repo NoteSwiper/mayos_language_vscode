@@ -328,6 +328,7 @@
     ]
   },
   "scripts": {
+    "vscode:prepublish": "yarn run compile",
     "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
