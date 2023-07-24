@@ -364,7 +364,7 @@
     "typescript": "^4.6.4",
     "webpack": "^5.76.0",
     "webpack-cli": "^4.6.0",
-    "vsce": "^2.19.0"
+    "@vscode/vsce": "^2.19.0"
   },
   "dependencies": {
     "@vscode/codicons": "^0.0.32",
