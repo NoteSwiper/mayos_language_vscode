@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <path d="M 385.139 12.508 C 387.317 12.508 389.081 14.272 389.081 16.45 L 389.081 483.55 C 389.081 485.728 387.317 487.492 385.139 487.492 L 65.854 487.492 C 63.676 487.492 61.912 485.728 61.912 483.55 L 61.912 137.498 L 186.902 12.508 L 385.139 12.508 Z" style="fill-rule: nonzero; fill: rgb(58, 58, 58); stroke: rgb(45, 46, 42); stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-width: 8px; filter: none;" transform="matrix(1, 0, 0, 1, -1.4210854715202004e-14, -2.842170943040401e-14)">
+    <title>fileicon</title>
+  </path>
+  <rect x="110.917" y="295.743" width="327.146" height="153.73" style="stroke-linecap: round; stroke-linejoin: round; stroke-width: 5px; fill: rgb(255, 158, 158); fill-opacity: 0.37; stroke: rgb(116, 45, 45); stroke-opacity: 0.47; filter: none;" rx="9.735" ry="9.735" transform="matrix(1, 0, 0, 1, -1.4210854715202004e-14, -2.842170943040401e-14)">
+    <title>back</title>
+  </rect>
+  <text style="fill: rgb(239, 239, 239); font-family: Arial, sans-serif; font-size: 24.8px; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.516872px; white-space: pre; filter: none;" transform="matrix(5.7890849113464355, 0, 0, 5.819212913513184, -114.49695587158203, -850.9780883789062)" x="38.938" y="219.469"><title>ext</title>.AES</text>
+</svg>

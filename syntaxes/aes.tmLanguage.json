@@ -128,7 +128,7 @@
             ]
         },
         "import": {
-            "begin": "(\\bimport\\b|[ \\t]*\\+=)",
+            "begin": "(\\bimport|require|using\\b|[ \\t]*\\+=)",
             "end": "(?={)",
             "beginCaptures": { "1": { "name": "keyword.control.import.aes" } },
             "patterns": [
@@ -173,16 +173,30 @@
             ]
         },
         "class": {
-            "begin": "\\b(class)\\b",
-            "beginCaptures": { "1": { "name": "storage.type.class.aes" } },
+            "begin": "\\b(api|protected|private|public|lib)|(static|dynamic|nr)|(class)\\b",
+            "beginCaptures": { 
+                "1": { "name": "support.constant.aes" },
+                "2": { "name": "support.type.aes" },
+                "3": { "name": "storage.type.class.aes" } 
+            },
             "end": "(?<=})",
             "patterns": [
                 { "include": "#comment" },
                 {
-                    "begin": "\\b([[:alnum:]]+)\\b",
+                    "begin": "\\b([[:alnum:]]+)|(extends|from)|([[:alnum:]_]+)\\b",
                     "beginCaptures": {
                         "1": {
                             "name": "entity.name.type.namespace.aes",
+                            "patterns": [
+                                { "include": "#identifier" },
+                                { "include": "#invalid-name" }
+                            ]
+                        },
+                        "2": {
+                            "name": "support.other.aes"
+                        },
+                        "3": {
+                            "name": "entity.name.class.aes",
                             "patterns": [
                                 { "include": "#identifier" },
                                 { "include": "#invalid-name" }
@@ -216,7 +230,7 @@
                 { "include": "#comment" },
                 { "include": "#class" },
                 {
-                    "begin": "([[:upper:]][.*[:alnum:]]*)",
+                    "begin": "([[:alnum:]][.*[:alnum:]]*)",
                     "end": "(?={)",
                     "beginCaptures": {
                         "1": {
@@ -264,7 +278,7 @@
             ]
         },
         "modifiered-type": {
-            "begin": "(\\?|!|\\breqiore(?=\\b)|\\bnull(?=\\b))",
+            "begin": "(\\?|!|\\brequired(?=\\b)|\\bnull|nil|undefined|none(?=\\b))",
             "beginCaptures": {
                 "1": {
                     "patterns": [
@@ -286,7 +300,7 @@
             "name": "storage.modifier.required.aes"
         },
         "nullable": {
-            "match": "(\\?|null)",
+            "match": "(\\?|null|nil|undefined|none)",
             "name": "storage.modifier.nullable.aes"
         },
         "iteration-and-type": {

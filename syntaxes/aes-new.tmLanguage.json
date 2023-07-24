@@ -1,0 +1,48 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "aeScript",
+    "scopeName": "source.aes",
+    "patterns": [
+        { "include": "#document" },
+        { "include": "#comments" },
+        { "include": "#environments" }
+    ],
+    "repository": {
+        "document": {
+            "patterns": [
+                {"include": "#comments"},
+                {"include": "#environments"},
+                {"include": "#variables"},
+                {"include": "#import"},
+                {"include": "#class"}
+            ]
+        },
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.aes",
+                    "match": "//.*$"
+                },
+                {
+                    "name":"comment.block.aes",
+                    "begin": "(^[ \\t]+)?(\\/\\*)",
+                    "end": "\\*\\/"
+                }
+            ]
+        },
+        "environments": {
+            "patterns": [
+                {
+                    "name": "comment.line.shebang.aes",
+                    "match": "\\A(#!).*(?=$)"
+                },
+                {
+                    "name":"meta.tag.aes",
+                    "begin": "((#|$!)region)",
+                    "end": "((#|$!)(end)|(region))"
+                }
+            ]
+        },
+        "variable"
+    }
+}

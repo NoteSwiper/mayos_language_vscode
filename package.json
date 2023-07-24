@@ -2,7 +2,7 @@
   "name": "aes-syntaxhlr",
   "displayName": "May OS / AE-DOS Script Syntax Highlighting Support",
   "description": "this extension allows to highlight May OS's AE Script.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "CC BY-NC 4.0", 
   "publisher": "NoteSwiper",
   "engines": {
@@ -15,6 +15,23 @@
   "categories": [
     "Programming Languages"
   ],
+  "icon": "images/icon/file-mayos_dark.png",
+  "keywords": [
+    "may",
+    "mayos",
+    "May",
+    "MayOS",
+    "May OS",
+    "may os",
+    "mayOS",
+    "may OS",
+    "AES",
+    "aes",
+    "aess",
+    "aeasm",
+    "aeini"
+  ],
+  "preview": true,
   "pricing": "Free",
   "activationEvents": [
     "onLanguage:mayosscript",
@@ -23,6 +40,14 @@
     "onCommand:_mayos.metadataFilesGeneration"
   ],
   "main": "./dist/extension",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
+  "homepage": "https://github.com/NoteSwiper/aes-syntaxhlr/blob/main/README_home.md",
+  "bugs": {
+    "url": "https://github.com/NoteSwiper/aes-syntaxhlr/issues"
+  },
   "contributes": {
     "customEditors": [
       {
@@ -30,7 +55,7 @@
         "displayName": "May OS Script",
         "selector": [
           {
-            "filenamePattern": "file:/**/*.aes?"
+            "filenamePattern": "*.aes"
           }
         ]
       }
@@ -100,7 +125,7 @@
     },
     "configuration": {
       "type": "object",
-      "title": "May OS / AE-DOS Configuration",
+      "title": "May OS / AE-DOS",
       "properties": {
         "aes-syntaxhlr.customargs": {
           "type": [
@@ -129,6 +154,7 @@
         "id": "aes",
         "aliases": [
           "aescript",
+          "A Easy Script (old name)",
           "aes",
           "AES"
         ],
@@ -142,6 +168,10 @@
           ".maycode",
           ".maycd"
         ],
+        "icon": {
+          "light": "./images/icon/file-mayos_light.png",
+          "dark": "./images/icon/file-mayos_dark.png"
+        },
         "firstLine": "",
         "configuration": "./aes.language-configuration.json"
       },
@@ -157,6 +187,10 @@
               "AESS",
               "aess"
           ],
+          "icon": {
+            "light": "./images/icon/file-mayos_light.png",
+            "dark": "./images/icon/file-mayos_dark.png"
+          },
           "firstLine": "",
           "configuration": "./aess.language-configuration.json"
       },
@@ -176,6 +210,10 @@
               "AEASM",
               "aeasm"
           ],
+          "icon": {
+            "light": "./images/icon/file-mayos_light.png",
+            "dark": "./images/icon/file-mayos_dark.png"
+          },
           "firstLine": "",
           "configuration": "./aeasm.language-configuration.json"
       },
@@ -193,8 +231,33 @@
               "AECFG",
               "aecfg"
           ],
+          "icon": {
+            "light": "./images/icon/file-mayos_light.png",
+            "dark": "./images/icon/file-mayos_dark.png"
+          },
           "firstLine": "",
           "configuration": "./aeini.language-configuration.json"
+      }
+    ],
+    "resourceLabelFormatters": [
+      {
+        "scheme": "mayhub",
+        "formatting": {
+          "label": "${path}",
+          "separator": "/",
+          "workspaceSuffix": "May Hub"
+        }
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "aes"
+      },
+      {
+        "language": "aess"
+      },
+      {
+        "language": "aeasm"
       }
     ],
     "grammars": [
